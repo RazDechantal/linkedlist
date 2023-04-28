@@ -7,7 +7,7 @@
  *
  * @author Eric Huber - University of Illinois staff
  *
-**/
+ **/
 
 /********************************************************************
   Week 1: Linked List and Merge Sort Exercises
@@ -79,7 +79,109 @@
  ********************************************************************/
 
 template <typename T>
-void LinkedList<T>::insertOrdered(const T& newData) {
+void LinkedList<T>::insertOrdered(const T &newData)
+{
+
+  Node *newNode = new Node(newData);
+  Node *currentNode = new Node(newData);
+  Node *comingNode = new Node(newData);
+  Node *prevNode = new Node(newData);
+  Node *helpNode = new Node(newData);
+
+  std::cout << "===============================================" << std::endl;
+
+  if (this->empty()) // empty list
+  {
+    std::cout << "The list was empty!" << std::endl;
+    // If empty, insert as the only item as both head and tail.
+    // The Node already has next and prev set to nullptr by default.
+    this->pushBack(newData);
+    return;
+  }
+
+  else if (head_->data > newData)
+  {
+    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+    std::cout << "The given data is already the smallest!" << std::endl;
+    Node *oldhead = head_;
+    oldhead->prev = newNode;
+    newNode->next = oldhead;
+    head_ = newNode;
+    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
+  }
+  else if (tail_->data < newData)
+  {
+    std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
+    std::cout << "The given data is already the biggest!" << std::endl;
+    Node *oldtail = tail_;
+    // oldtail->next = newNode;
+    newNode->next = nullptr;
+    newNode->prev = oldtail;
+    oldtail->next = newNode;
+    tail_ = newNode;
+    std::cout << " HEAD " << head_->data << std::endl;
+    std::cout << " TAIL " << tail_->data << std::endl;
+    std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
+  }
+  else
+  {
+    std::cout << "###############################################" << std::endl;
+    std::cout << "Not at the beginning!" << std::endl;
+    currentNode = head_;
+    while (newData > currentNode->data)
+    {
+      std::cout << " the new data: " << newData << " is bigger than current data: " << currentNode->data << std::endl;
+      currentNode = currentNode->next;
+    }
+    std::cout << " new data: " << newData << " was smaller than " << currentNode->data << std::endl;
+
+    if (currentNode == head_)
+    {
+      head_ = newNode;
+      std::cout << "The new node will be the tail!" << std::endl;
+    }
+    else
+    {
+      std::cout << "Different head" << std::endl;
+    }
+
+    newNode->next = currentNode;
+    prevNode = currentNode->prev;
+    newNode->prev = prevNode;
+    prevNode->next = newNode;
+    currentNode->prev = newNode;
+  }
+  std::cout << "###############################################" << std::endl;
+  size_++;
+
+  std::cout << "Looooooooooooooooop starts" << std::endl;
+  int counter = 0;
+
+  helpNode = head_;
+  do
+  {
+    std::cout << counter << " - " << helpNode->data << std::endl;
+    helpNode = helpNode->next;
+    counter++;
+  } while (helpNode);
+
+  std::cout << "Reverse order" << std::endl;
+
+  counter = size_ - 1;
+  helpNode = tail_;
+  while (helpNode)
+  {
+    std::cout << counter << " - " << helpNode->data << std::endl;
+    helpNode = helpNode->prev;
+    counter--;
+  }
+
+  std::cout
+      << "Loooooooooooooooooooooop endss" << std::endl;
+
+  std::cout << "Exit =============================================== Exit" << std::endl;
+
+  // update size
 
   // -----------------------------------------------------------
   // TODO: Your code here!
@@ -92,7 +194,7 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // go in the list. A good way to do this is by considering special
   // base cases first, then walk the list from front to back and find
   // the earliest position where you should insert the new node.
-  
+
   // When you insert the node, make sure to update any and all pointers
   // between it and adjacent nodes accordingly (next and prev pointers).
   // You may also need to update the head_ and tail_ pointers in some
@@ -102,13 +204,13 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // other provided code for this project!
 
   // More hints:
-  
+
   // First, practice your technique for traversing the list from front
   // to back. You can see examples of several ways to do this throughout
   // the provided code for this project. We recommend that you try using
   // a temporary pointer that you update to track your position as you
   // traverse from node to node.
-  
+
   // Consider all the cases that can happen when you're trying to insert
   // the new node. Is the list currently empty? Does the new node go
   // at the beginning? Does it go somewhere in the middle? Does it go
@@ -127,7 +229,6 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   // they don't handle the null pointer at the tail properly. Be careful
   // to update all next, prev, head_, and tail_ pointers as needed on your
   // new node or on those existing nodes that are adjacent to the new node.
-
 }
 
 /********************************************************************
@@ -184,7 +285,7 @@ void LinkedList<T>::insertOrdered(const T& newData) {
   A correct implementation of this function has O(n) time complexity
   for a list of length n. That is, in the worst case, you would
   traverse each element of the list some constant number of times.
-  
+
   Important notes for getting the correct running time:
 
   1. Since both lists being merged are already sorted themselves, there
@@ -203,7 +304,10 @@ void LinkedList<T>::insertOrdered(const T& newData) {
  ********************************************************************/
 
 template <typename T>
-LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
+LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
+{
+
+  std::cout << "========        Merge starts       =================" << std::endl;
 
   // You can't edit the original instance of LinkedList that is calling
   // merge because the function is marked const, and the "other" input
@@ -217,15 +321,84 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // So if this function was called as "A.merge(B)", then now, "left"
   // is a temporary copy of the "A" and "right" is a temporary copy
   // of the "B".
-  
+
   // We will also create an empty list called "merged" where we can build
   // the final result we want. This is what we will return at the end of
   // the function.
   LinkedList<T> merged;
+  Node *currentNode_left;
+  Node *currentNode_right;
 
+  if (left.size_ < 1)
+  {
+    return right;
+  }
+  if (right.size_ < 1)
+  {
+    return left;
+  }
   // -----------------------------------------------------------
   // TODO: Your code here!
   // -----------------------------------------------------------
+  currentNode_right = right.head_;
+  // std::cout << "Data: " << currentNode_right->data << std::endl;
+
+  int counter = right.size_;
+  while (currentNode_right)
+  {
+    left.pushBack(currentNode_right->data);
+    currentNode_right = currentNode_right->next;
+    counter--;
+  }
+
+  currentNode_left = left.head_;
+  while (currentNode_left)
+  {
+    //    std::cout << "Data: " << currentNode_left->data << std::endl;
+    currentNode_left = currentNode_left->next;
+  }
+
+  /*   counter = right.size_;
+    while (counter > 0)
+    {
+      std::cout << "Data: " << currentNode_right->data << std::endl;
+      counter--;
+    }
+   */
+  currentNode_left = left.head_;
+  counter = left.size_;
+  while (counter > 0)
+  {
+    Node *temp1;
+    Node *temp2;
+    if (currentNode_left->data > currentNode_left->next->data)
+    {
+
+      temp1 = currentNode_left;
+      temp2 = currentNode_left->next;
+
+      temp1->prev = temp2;
+      temp2->next = temp1;
+      temp1->next = temp2->next;
+
+      if (currentNode_left == left.head_)
+      {
+        left.head_ = temp2;
+      }
+
+      currentNode_left = temp2;
+
+      // temp2->prev = temp1;
+      currentNode_left = currentNode_left->next;
+      //  currentNode_left->prev = temp2->next;
+      //   currentNode_left->prev = temp1->prev;
+    }
+
+    std::cout << "Data: " << currentNode_left->data << std::endl;
+    currentNode_left = currentNode_left->next;
+    counter--;
+  }
+
   // Please implement this function according to the description
   // above and in the instructions PDF.
 
@@ -253,6 +426,7 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T>& other) const {
   // notice that all of our nodes are created on the heap? The part of the
   // list that we pass back is really small; it just contains two pointers
   // and an int.)
+  std::cout << "==========        Merge ends       =================" << std::endl;
+
   return merged;
 }
-
