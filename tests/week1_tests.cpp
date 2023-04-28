@@ -466,7 +466,6 @@ TEST_CASE("Benchmark: Measuring slowdown for sorting algorithms", "[weight=0][.]
 // ========================================================================
 // Tests: insertOrdered
 // ========================================================================
-/*
 TEST_CASE("Testing insertOrdered: Insert at front", "[weight=1]")
 {
   LinkedList<int> l;
@@ -480,7 +479,7 @@ TEST_CASE("Testing insertOrdered: Insert at front", "[weight=1]")
   expectedList.pushFront(-200);
   auto studentResultList = l;
   auto *expectedAddress = studentResultList.getTailPtr();
-  studentResultList.insertOrdered(-200);
+  studentResultList.insertOrdered(-100);
 
   SECTION("Checking that values are correct")
   {
@@ -556,13 +555,11 @@ TEST_CASE("Testing insertOrdered: Insert to empty list", "[weight=1]")
   {
     REQUIRE(studentResultList.assertPrevLinks());
   }
-
   SECTION("Checking that the list size is being tracked correctly")
   {
     REQUIRE(studentResultList.assertCorrectSize());
   }
 }
-
 
 TEST_CASE("Testing insertOrdered: Insert in middle", "[weight=1]")
 {
@@ -585,6 +582,11 @@ TEST_CASE("Testing insertOrdered: Insert in middle", "[weight=1]")
   auto *expectedAddress = studentResultList.getHeadPtr();
   studentResultList.insertOrdered(5);
 
+  SECTION("Checking that values are correct")
+  {
+    REQUIRE(studentResultList == expectedList);
+  }
+
   SECTION("Checking that the list prev links and tail pointer are being set correctly")
   {
     REQUIRE(studentResultList.assertPrevLinks());
@@ -601,12 +603,10 @@ TEST_CASE("Testing insertOrdered: Insert in middle", "[weight=1]")
     REQUIRE(studentAddress == expectedAddress);
   }
 }
-*/
 
 // ========================================================================
 // Tests: merge
 // ========================================================================
-/*
 TEST_CASE("Testing merge: Left and right lists both empty", "[weight=1]")
 {
 
@@ -630,8 +630,8 @@ TEST_CASE("Testing merge: Left and right lists both empty", "[weight=1]")
     REQUIRE(studentResultList.assertCorrectSize());
   }
 }
-*/
-/* TEST_CASE("Testing merge: Left list empty; right list non-empty", "[weight=1]")
+
+TEST_CASE("Testing merge: Left list empty; right list non-empty", "[weight=1]")
 {
 
   LinkedList<int> left;
@@ -684,7 +684,6 @@ TEST_CASE("Testing merge: Left list non-empty; right list empty", "[weight=1]")
     REQUIRE(studentResultList.assertCorrectSize());
   }
 }
-*/
 
 TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1]")
 {
@@ -715,7 +714,7 @@ TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1
     REQUIRE(studentResultList == expectedList);
   }
 
-/*   SECTION("Checking that the list prev links and tail pointer are being set correctly")
+  SECTION("Checking that the list prev links and tail pointer are being set correctly")
   {
     REQUIRE(studentResultList.assertPrevLinks());
   }
@@ -724,8 +723,8 @@ TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1
   {
     REQUIRE(studentResultList.assertCorrectSize());
   }
- */}
-/*
+}
+
 TEST_CASE("Testing merge: Left and right lists non-empty; left list is longer", "[weight=1]")
 {
 
@@ -797,4 +796,3 @@ TEST_CASE("Testing merge: Left and right lists non-empty; right list is longer",
     REQUIRE(studentResultList.assertCorrectSize());
   }
 }
-*/

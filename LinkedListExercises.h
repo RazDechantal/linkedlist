@@ -84,15 +84,10 @@ void LinkedList<T>::insertOrdered(const T &newData)
 
   Node *newNode = new Node(newData);
   Node *currentNode = new Node(newData);
-  Node *comingNode = new Node(newData);
   Node *prevNode = new Node(newData);
-  Node *helpNode = new Node(newData);
-
-  std::cout << "===============================================" << std::endl;
 
   if (this->empty()) // empty list
   {
-    std::cout << "The list was empty!" << std::endl;
     // If empty, insert as the only item as both head and tail.
     // The Node already has next and prev set to nullptr by default.
     this->pushBack(newData);
@@ -101,48 +96,30 @@ void LinkedList<T>::insertOrdered(const T &newData)
 
   else if (head_->data > newData)
   {
-    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
-    std::cout << "The given data is already the smallest!" << std::endl;
     Node *oldhead = head_;
     oldhead->prev = newNode;
     newNode->next = oldhead;
     head_ = newNode;
-    std::cout << "+++++++++++++++++++++++++++++++++++++++++++++++" << std::endl;
   }
   else if (tail_->data < newData)
   {
-    std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
-    std::cout << "The given data is already the biggest!" << std::endl;
     Node *oldtail = tail_;
-    // oldtail->next = newNode;
     newNode->next = nullptr;
     newNode->prev = oldtail;
     oldtail->next = newNode;
     tail_ = newNode;
-    std::cout << " HEAD " << head_->data << std::endl;
-    std::cout << " TAIL " << tail_->data << std::endl;
-    std::cout << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&" << std::endl;
   }
   else
   {
-    std::cout << "###############################################" << std::endl;
-    std::cout << "Not at the beginning!" << std::endl;
     currentNode = head_;
     while (newData > currentNode->data)
     {
-      std::cout << " the new data: " << newData << " is bigger than current data: " << currentNode->data << std::endl;
       currentNode = currentNode->next;
     }
-    std::cout << " new data: " << newData << " was smaller than " << currentNode->data << std::endl;
 
     if (currentNode == head_)
     {
       head_ = newNode;
-      std::cout << "The new node will be the tail!" << std::endl;
-    }
-    else
-    {
-      std::cout << "Different head" << std::endl;
     }
 
     newNode->next = currentNode;
@@ -151,35 +128,7 @@ void LinkedList<T>::insertOrdered(const T &newData)
     prevNode->next = newNode;
     currentNode->prev = newNode;
   }
-  std::cout << "###############################################" << std::endl;
   size_++;
-
-  std::cout << "Looooooooooooooooop starts" << std::endl;
-  int counter = 0;
-
-  helpNode = head_;
-  do
-  {
-    std::cout << counter << " - " << helpNode->data << std::endl;
-    helpNode = helpNode->next;
-    counter++;
-  } while (helpNode);
-
-  std::cout << "Reverse order" << std::endl;
-
-  counter = size_ - 1;
-  helpNode = tail_;
-  while (helpNode)
-  {
-    std::cout << counter << " - " << helpNode->data << std::endl;
-    helpNode = helpNode->prev;
-    counter--;
-  }
-
-  std::cout
-      << "Loooooooooooooooooooooop endss" << std::endl;
-
-  std::cout << "Exit =============================================== Exit" << std::endl;
 
   // update size
 
@@ -306,29 +255,15 @@ void LinkedList<T>::insertOrdered(const T &newData)
 template <typename T>
 LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
 {
-
-  std::cout << "========        Merge starts       =================" << std::endl;
-
-  // You can't edit the original instance of LinkedList that is calling
-  // merge because the function is marked const, and the "other" input
-  // list is also marked const. However, here we'll make some convenient
-  // "working copies" of the two lists: "*this" refers to the current
-  // list object instance that is calling the merge member function, and
-  // "other" refers to the list that was passed as an argument:
   LinkedList<T> left = *this;
   LinkedList<T> right = other;
-
-  // So if this function was called as "A.merge(B)", then now, "left"
-  // is a temporary copy of the "A" and "right" is a temporary copy
-  // of the "B".
-
-  // We will also create an empty list called "merged" where we can build
-  // the final result we want. This is what we will return at the end of
-  // the function.
   LinkedList<T> merged;
   Node *currentNode_left;
   Node *currentNode_right;
+  Node *helpNode;
+  int temp;
 
+  // If lists are emptty
   if (left.size_ < 1)
   {
     return right;
@@ -337,96 +272,44 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
   {
     return left;
   }
-  // -----------------------------------------------------------
-  // TODO: Your code here!
-  // -----------------------------------------------------------
-  currentNode_right = right.head_;
-  // std::cout << "Data: " << currentNode_right->data << std::endl;
 
-  int counter = right.size_;
+  int static counter = 0;
+
+  // adding both together
+  currentNode_left = left.head_;
+  currentNode_right = right.head_;
   while (currentNode_right)
   {
     left.pushBack(currentNode_right->data);
     currentNode_right = currentNode_right->next;
-    counter--;
   }
 
   currentNode_left = left.head_;
-  while (currentNode_left)
-  {
-    //    std::cout << "Data: " << currentNode_left->data << std::endl;
-    currentNode_left = currentNode_left->next;
-  }
+  currentNode_right = currentNode_left->next;
+  int data;
 
-  /*   counter = right.size_;
-    while (counter > 0)
+  // Sorting
+  for (currentNode_left = left.head_; currentNode_left->next != nullptr; currentNode_left = currentNode_left->next)
+  {
+    for (currentNode_right = currentNode_left->next; currentNode_right != nullptr; currentNode_right = currentNode_right->next)
     {
-      std::cout << "Data: " << currentNode_right->data << std::endl;
-      counter--;
+      if (currentNode_left->data > currentNode_right->data)
+      {
+        data = currentNode_left->data;
+        currentNode_left->data = currentNode_right->data;
+        currentNode_right->data = data;
+      }
+    }
+  }
+  // Display
+  /*   currentNode_left = left.head_;
+    while (currentNode_left)
+    {
+      std::cout << counter << " - Data: " << currentNode_left->data << std::endl;
+      currentNode_left = currentNode_left->next;
+      counter++;
     }
    */
-  currentNode_left = left.head_;
-  counter = left.size_;
-  while (counter > 0)
-  {
-    Node *temp1;
-    Node *temp2;
-    if (currentNode_left->data > currentNode_left->next->data)
-    {
-
-      temp1 = currentNode_left;
-      temp2 = currentNode_left->next;
-
-      temp1->prev = temp2;
-      temp2->next = temp1;
-      temp1->next = temp2->next;
-
-      if (currentNode_left == left.head_)
-      {
-        left.head_ = temp2;
-      }
-
-      currentNode_left = temp2;
-
-      // temp2->prev = temp1;
-      currentNode_left = currentNode_left->next;
-      //  currentNode_left->prev = temp2->next;
-      //   currentNode_left->prev = temp1->prev;
-    }
-
-    std::cout << "Data: " << currentNode_left->data << std::endl;
-    currentNode_left = currentNode_left->next;
-    counter--;
-  }
-
-  // Please implement this function according to the description
-  // above and in the instructions PDF.
-
-  // Hints:
-  // 1. Assuming that the left and right lists are already sorted, remember
-  //    that the smallest items are already available at the front. You can
-  //    access them immediately.
-  // 2. Think of which item needs to be placed first in the merged list.
-  //    Then think about what item should be placed second. You need to
-  //    think carefully about which list to take from next after you take
-  //    each single item.
-  // 3. You can do this while walking down the left and right lists exactly
-  //    once. Do not loop over the lists multiple times. If you are doing
-  //    that, your implementation is probably already running in O(n^2)
-  //    time or worse, and not O(n).
-  // 4. Remember, DO NOT try to use insertOrdered here. That would be
-  //    very slow.
-
-  // -----------------------------------------------------------
-
-  // We return the merged list by value here. It may be copied out of the
-  // function, but usually the compiler will optimize this to automatically
-  // create it directly in the correct memory space outside without copying.
-  // Don't worry about the speed of that right now. (By the way, did you
-  // notice that all of our nodes are created on the heap? The part of the
-  // list that we pass back is really small; it just contains two pointers
-  // and an int.)
-  std::cout << "==========        Merge ends       =================" << std::endl;
-
+  merged = left;
   return merged;
 }
