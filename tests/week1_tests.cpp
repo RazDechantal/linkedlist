@@ -476,7 +476,7 @@ TEST_CASE("Testing insertOrdered: Insert at front", "[weight=1]")
   l.pushBack(49);
 
   auto expectedList = l;
-  expectedList.pushFront(-200);
+  expectedList.pushFront(-100);
   auto studentResultList = l;
   auto *expectedAddress = studentResultList.getTailPtr();
   studentResultList.insertOrdered(-100);
