@@ -273,43 +273,39 @@ LinkedList<T> LinkedList<T>::merge(const LinkedList<T> &other) const
     return left;
   }
 
-  int static counter = 0;
-
-  // adding both together
-  currentNode_left = left.head_;
-  currentNode_right = right.head_;
-  while (currentNode_right)
+  while ((left.size() > 0) && (right.size() != 0))
   {
-    left.pushBack(currentNode_right->data);
-    currentNode_right = currentNode_right->next;
-  }
-
-  currentNode_left = left.head_;
-  currentNode_right = currentNode_left->next;
-  int data;
-
-  // Sorting
-  for (currentNode_left = left.head_; currentNode_left->next != nullptr; currentNode_left = currentNode_left->next)
-  {
-    for (currentNode_right = currentNode_left->next; currentNode_right != nullptr; currentNode_right = currentNode_right->next)
+    std::cout << "Left container head: " << left.getHeadPtr()->data << " Left size: " << left.size() << std::endl;
+    while (right.size() > 0)
     {
-      if (currentNode_left->data > currentNode_right->data)
+      // std::cout << "Right container head: " << right.getHeadPtr()->data << " right size: " << right.size() << std::endl;
+      if (left.getHeadPtr()->data < right.getHeadPtr()->data)
       {
-        data = currentNode_left->data;
-        currentNode_left->data = currentNode_right->data;
-        currentNode_right->data = data;
+        merged.pushBack(left.getHeadPtr()->data);
+        break;
+      }
+      else
+      {
+        merged.pushBack(right.getHeadPtr()->data);
+        right.popFront();
       }
     }
+    left.popFront();
   }
-  // Display
-  /*   currentNode_left = left.head_;
-    while (currentNode_left)
-    {
-      std::cout << counter << " - Data: " << currentNode_left->data << std::endl;
-      currentNode_left = currentNode_left->next;
-      counter++;
-    }
-   */
-  merged = left;
+
+  while (left.size() > 0)
+  {
+    std::cout << left.getHeadPtr()->data << " rest of left!" << std::endl;
+    merged.pushBack(left.getHeadPtr()->data);
+    left.popFront();
+  }
+
+  while (right.size() > 0)
+  {
+    std::cout << right.getHeadPtr()->data << " rest of right!" << std::endl;
+    merged.pushBack(right.getHeadPtr()->data);
+    right.popFront();
+  }
+
   return merged;
 }

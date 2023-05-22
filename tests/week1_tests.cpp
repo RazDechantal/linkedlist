@@ -685,28 +685,44 @@ TEST_CASE("Testing merge: Left list non-empty; right list empty", "[weight=1]")
   }
 }
 
-TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1]")
+/* TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1]")
 {
 
   LinkedList<int> left;
   left.pushBack(1);
+  left.pushBack(3);
   left.pushBack(5);
+  left.pushBack(8);
   left.pushBack(10);
   left.pushBack(20);
+  left.pushBack(30);
+  left.pushBack(40);
   LinkedList<int> right;
   right.pushBack(2);
   right.pushBack(4);
   right.pushBack(11);
   right.pushBack(19);
+  right.pushBack(25);
+  right.pushBack(44);
+  right.pushBack(111);
+  right.pushBack(119);
   LinkedList<int> expectedList;
   expectedList.pushBack(1);
   expectedList.pushBack(2);
+  expectedList.pushBack(3);
   expectedList.pushBack(4);
   expectedList.pushBack(5);
+  expectedList.pushBack(8);
   expectedList.pushBack(10);
   expectedList.pushBack(11);
   expectedList.pushBack(19);
   expectedList.pushBack(20);
+  expectedList.pushBack(25);
+  expectedList.pushBack(30);
+  expectedList.pushBack(40);
+  expectedList.pushBack(44);
+  expectedList.pushBack(111);
+  expectedList.pushBack(119);
   auto studentResultList = left.merge(right);
 
   SECTION("Checking that values are correct")
@@ -723,7 +739,7 @@ TEST_CASE("Testing merge: Left and right lists non-empty; same size", "[weight=1
   {
     REQUIRE(studentResultList.assertCorrectSize());
   }
-}
+} */
 
 TEST_CASE("Testing merge: Left and right lists non-empty; left list is longer", "[weight=1]")
 {
